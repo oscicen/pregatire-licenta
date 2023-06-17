@@ -9,10 +9,10 @@ import { Inter } from 'next/font/google'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export const metadata = {
-  title: 'Pregatire Licenta',
-  description: 'Pregatire Licenta 2023 Contabilitate si Informatica de Gestiune',
-}
+// export const metadata = {
+//   title: 'Pregatire Licenta',
+//   description: 'Pregatire Licenta 2023 Contabilitate si Informatica de Gestiune',
+// }
 
 export default function RootLayout({ children }) {
   return (
