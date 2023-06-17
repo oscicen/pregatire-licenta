@@ -1,95 +1,51 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+'use client'
+import { useEffect, useState } from 'react'
+
+import Question from '@/components/Question'
+import { data } from '@/db/data'
+
+import styles from './page.module.scss'
+
+// Map question ids
+const mappedData = [[],[],[]];
+data.forEach((c, i) => c.questions.forEach(q => mappedData[i].push(q.id)))
 
 export default function Home() {
+  const [categoryId, setCategoryId] = useState(1);
+  const [questionId, setQuestionId] = useState(1);
+  const [category, setCategory] = useState(null);
+  const [question, setQuestion] = useState(null);
+
+  // Random question at start
+  useEffect(() => {
+    randomQuestion();
+  }, [])
+
+  useEffect(() => {
+    const newCategory = data.find(c => c.id === categoryId);
+    const newQuestion = newCategory.questions.find(q => q.id === questionId);
+    setCategory(newCategory);
+    setQuestion(newQuestion);
+  }, [categoryId, questionId])
+
+  const randomQuestion = () => {
+    const noOfCategories = data.length;
+    const randomCategory = Math.floor(Math.random() * (noOfCategories - 0) + 0);
+    const noOfQuestions = data[randomCategory].questions.length;
+    const randomQuestion = Math.floor(Math.random() * (noOfQuestions - 0) + 0);
+    setQuestionId(mappedData[randomCategory][randomQuestion]);
+    setCategoryId(randomCategory + 1);
+  }
+
   return (
     <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+      {category && (
+        <div className={styles.categoryInfo}>
+          <h2>{`${category.id}. ${category.category}`}</h2>
+          <p>{category.teacher}</p>
         </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+      )}
+      {question && <Question question={question} goNext={randomQuestion} />}
     </main>
   )
 }
