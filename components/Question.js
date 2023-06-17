@@ -5,7 +5,7 @@ import { Box, Button, ButtonGroup } from '@chakra-ui/react'
 
 import styles from './question.module.scss'
 
-const Question = ({ question, goNext }) => {
+const Question = ({ question, goNext, isList }) => {
   const [guess, setGuess] = useState('')
   const [check, setCheck] = useState(false)
 
@@ -29,7 +29,7 @@ const Question = ({ question, goNext }) => {
               className={classNames({
                 [styles.guess]: answer.id === guess,
                 [styles.wrong]: answer.id === guess && check && !answer.isTrue,
-                [styles.correct]: check && answer.isTrue
+                [styles.correct]: check || isList && answer.isTrue
               })}
               onClick={() => onAnswerSelect(answer.id) }
               key={answer.id}
@@ -39,10 +39,12 @@ const Question = ({ question, goNext }) => {
           )) }
         </div>
       </Box>
-      <ButtonGroup className={styles.actions}>
-        <Button isDisabled={!guess.length} onClick={() => setCheck(true)}>Verifica</Button>
-        <Button isDisabled={!check} onClick={onNextQuestion}>Urmatoarea Intrebare</Button>
-      </ButtonGroup>
+      { !isList && (
+        <ButtonGroup className={styles.actions}>
+          <Button isDisabled={!guess.length} onClick={() => setCheck(true)}>Verifica</Button>
+          <Button isDisabled={!check} onClick={onNextQuestion}>Urmatoarea Intrebare</Button>
+        </ButtonGroup>
+      ) }
     </div>
   );
 };
