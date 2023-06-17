@@ -16,20 +16,21 @@ const Question = ({ question, goNext, isList }) => {
   }
 
   const onAnswerSelect = (answerId) =>{
+    if (isList) return
     setGuess(answerId === guess ? '' : answerId);
   }
 
   return (
-    <div className={ styles.container }>
+    <div className={classNames(styles.container, { [styles.list]: isList })}>
       <Box w='100%' borderRadius='md' borderWidth='1px' p={4}>
-        <h3 dangerouslySetInnerHTML={{ __html: `${ question.id }. ${ question.question }` }} />
+        <h3 dangerouslySetInnerHTML={{ __html: `${ question.number }. ${ question.question }` }} />
         <div className={ styles.answers }>
           { question.answers.map(answer => (
             <button
               className={classNames({
                 [styles.guess]: answer.id === guess,
                 [styles.wrong]: answer.id === guess && check && !answer.isTrue,
-                [styles.correct]: check || isList && answer.isTrue
+                [styles.correct]: (check || isList) && answer.isTrue
               })}
               onClick={() => onAnswerSelect(answer.id) }
               key={answer.id}

@@ -94,6 +94,23 @@ a {
   text-decoration: none;
 }
 
+nav {
+  display: flex;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+nav a {
+  margin-right: 10px;
+  font-size: 14px;
+  padding: 10px 0;
+  display: inline-block;
+  border-bottom: 1px solid transparent;
+}
+
+nav a:hover {
+  border-bottom: 1px solid blue;
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

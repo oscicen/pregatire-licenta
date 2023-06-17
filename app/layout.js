@@ -1,4 +1,5 @@
 'use client'
+import Link from 'next/link'
 import { Container } from '@chakra-ui/react'
 
 import { Providers } from "./providers";
@@ -19,6 +20,12 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <Providers>
           <Container maxW='3xl'>
+            <nav>
+              <div>
+                <Link href='/'>Chestionar</Link>
+                <Link href='/list'>Lista intrebari</Link>
+              </div>
+            </nav>
            {children}
           </Container>
         </Providers>

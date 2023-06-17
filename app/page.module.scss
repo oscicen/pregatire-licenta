@@ -1,19 +1,25 @@
 .main {
   color: #1A202C;
 
-  .category {
-    position: relative;
-    .categoryInfo {
-      padding: 10px 0;
-      left: 0;
-      right: 0;
-      top: 0;
-      position: fixed;
-      background: #fff;
-  
-      p {
-        font-size: 12px;
-      }
+  .filters {
+    display: flex;
+    gap: 10px;
+    margin: 10px 0;
+
+    .active {
+      background: #BEE3F8
+    }
+
+    h4 {
+      font-size: 14px;
+    }
+  }
+
+  .categoryInfo {
+    padding: 10px 0;
+
+    p {
+      font-size: 12px;
     }
   }
 }
